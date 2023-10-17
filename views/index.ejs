@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD de Usuarios</title>
+  <style>
+    /* Agregue aquí sus estilos personalizados */
+  </style>
+</head>
+<body>
+  <h1>Usuarios</h1>
+  <form action="/users" method="POST">
+    <label for="name">Nombre:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" required>
+    <button type="submit">Crear Usuario</button>
+  </form>
+  <hr>
+  <h2>Lista de Usuarios</h2>
+  <ul>
+    <% users.forEach((user) => { %>
+      <li>
+        <%= user.name %> (<%= user.email %>)
+        <a href="/users/edit/<%= user._id %>">Editar</a>
+        <a href="/users/delete/<%= user._id %>">Eliminar</a>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
