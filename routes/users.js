@@ -25,6 +25,7 @@ router.post('/', [
     body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres')
   ], async (req, res) => {
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {    
       const users = await User.find();
       return res.render('index', { errors: errors.array(), users });
@@ -44,7 +45,7 @@ router.post('/', [
       });
   
       await newUser.save();
-      res.redirect('/users');
+      res.redirect('/');
     });
   });
 
@@ -53,15 +54,9 @@ router.get('/edit/:id', async (req, res) => {
   res.render('partials/edit', { user });
 });
 
-router.post('/update/:id', [
-  body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres')
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.render('partials/edit', { errors: errors.array(), user: req.body });
-  }
-  await User.findByIdAndUpdate(req.params.id, req.body);
-  res.redirect('/users');
+router.post('/update/:id', async (req, res) => {
+    await User.findByIdAndUpdate(req.params.id, req.body);
+    res.redirect('/users');
 });
 
 router.get('/delete/:id', async (req, res) => {
